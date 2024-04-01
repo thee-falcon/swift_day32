@@ -16,6 +16,8 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor(red: 173/255, green: 216/255, blue: 230/255, alpha: 1.0)
+
         // title.
         title = "Shopping List"
         // the add Button.
@@ -71,61 +73,64 @@ class ViewController: UITableViewController {
         
         cell.textLabel?.text = shoppingList[indexPath.row]
         
-        // Create and configure the remove button
+        // background of the cell.
+        cell.backgroundColor = UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1.0)
+
+        // Create and configure the remove button.
         let removeButton = UIButton(type: .system)
         removeButton.setTitle("Remove", for: .normal)
         removeButton.setTitleColor(.red, for: .normal) // Set button title color to red
         removeButton.sizeToFit() // Adjust button size to fit the title
         removeButton.addTarget(self, action: #selector(removeItem(_:)), for: .touchUpInside)
         
-        // Set the button as the accessory view of the cell
+        // Set the button as the accessory view of the cell.
         cell.accessoryView = removeButton
         
         return cell
     }
     
     @objc func removeItem(_ sender: UIButton) {
-        // Get the cell containing the button that was tapped
+        // Get the cell containing the button that was tapped.
         guard let cell = sender.superview as? UITableViewCell else {
             return
         }
         
-        // Get the index path of the cell
+        // Get the index path of the cell.
         guard let indexPath = tableView.indexPath(for: cell) else {
             return
         }
         
-        // Remove the item from the shopping list array
+        // Remove the item from the shopping list array.
         shoppingList.remove(at: indexPath.row)
         
-        // Reload the table view to reflect the changes
+        // Reload the table view to reflect the changes.
         tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Deselect the tapped row
+        // Deselect the tapped row.
         tableView.deselectRow(at: indexPath, animated: true)
         
-        // Get the selected cell
+        // Get the selected cell.
         guard let cell = tableView.cellForRow(at: indexPath) else {
             return
         }
         
-        // Toggle the editing mode of the selected cell
+        // Toggle the editing mode of the selected cell.
         cell.setEditing(!cell.isEditing, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        // Set the editing style for the cell to .delete
+        // Set the editing style for the cell to .delete.
         return .delete
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Remove the item from the shopping list array
+            // Remove the item from the shopping list array.
             shoppingList.remove(at: indexPath.row)
             
-            // Delete the row from the table view
+            // Delete the row from the table view.
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
